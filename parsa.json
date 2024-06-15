@@ -84,14 +84,15 @@
 			"type": "selector",
 			"tag": "select",
 			"outbounds": [
-			"Warp-on-Warp_1"
+			"auto",
+			"به این وصل نشو","Game | @pylin_news"
 			],
-			"default": "Warp-on-Warp_1"
+			"default": "auto"
 		},{
 			"type": "urltest",
 			"tag": "auto",
 			"outbounds": [
-			"Warp-on-Warp_1"
+			"به این وصل نشو","Game | @pylin_news"
 			],
 			"url": "http://cp.cloudflare.com/",
 			"interval": "10m0s",
@@ -99,7 +100,7 @@
 		},
 		{
 		"type": "wireguard",
-		"tag": "National_1",
+		"tag": "به این وصل نشو",
 		"server": "188.114.98.41",
 		"server_port": 5279,
 		"local_address": ["172.16.0.2/32","2606:4700:110:8bad:72e8:83ff:14d2:d639/128"],
@@ -112,8 +113,8 @@
 		"fake_packets_delay": "20-250"
 		},{
 		"type": "wireguard",
-		"tag": "Warp-on-Warp_1",
-		"detour": "National_1",
+		"tag": "Game | @pylin_news",
+		"detour": "به این وصل نشو",
 		"server": "188.114.98.41",
 		"server_port": 5279,
 		"local_address": ["172.16.0.2/32","2606:4700:110:84f2:f5ba:705e:c940:9775/128"],
