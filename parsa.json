@@ -84,14 +84,14 @@
 			"type": "selector",
 			"tag": "select",
 			"outbounds": [
-			"Warp-on-Warp_1"
+			"auto", "Warp-on-Warp_1"
 			],
-			"default": "auto"
+			"default": "Warp-on-Warp_1"
 		},{
 			"type": "urltest",
 			"tag": "auto",
 			"outbounds": [
-			"National_1","Warp-on-Warp_1"
+			"Warp-on-Warp_1"
 			],
 			"url": "http://cp.cloudflare.com/",
 			"interval": "10m0s",
