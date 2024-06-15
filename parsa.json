@@ -85,14 +85,14 @@
 			"tag": "select",
 			"outbounds": [
 			"auto",
-			"National_1","Warp-on-Warp_1"
+			"وصل سرور گیم شو","GAME - @pylin_gap"
 			],
 			"default": "auto"
 		},{
 			"type": "urltest",
 			"tag": "auto",
 			"outbounds": [
-			"National_1","Warp-on-Warp_1"
+			"وصل سرور گیم شو","GAME - @pylin_gap"
 			],
 			"url": "http://cp.cloudflare.com/",
 			"interval": "10m0s",
@@ -100,7 +100,7 @@
 		},
 		{
 		"type": "wireguard",
-		"tag": "National_1",
+		"tag": "وصل سرور گیم شو",
 		"server": "188.114.99.108",
 		"server_port": 1843,
 		"local_address": ["172.16.0.2/32","2606:4700:110:81c0:92f5:4713:c899:80ad/128"],
@@ -113,8 +113,8 @@
 		"fake_packets_delay": "20-250"
 		},{
 		"type": "wireguard",
-		"tag": "Warp-on-Warp_1",
-		"detour": "National_1",
+		"tag": "GAME - @pylin_gap",
+		"detour": "وصل سرور گیم شو",
 		"server": "188.114.99.108",
 		"server_port": 1843,
 		"local_address": ["172.16.0.2/32",""],
