@@ -84,7 +84,7 @@
 			"type": "selector",
 			"tag": "select",
 			"outbounds": [
-			"auto", "Warp-on-Warp_1"
+			"Warp-on-Warp_1"
 			],
 			"default": "Warp-on-Warp_1"
 		},{
