@@ -84,15 +84,13 @@
 			"type": "selector",
 			"tag": "select",
 			"outbounds": [
-			"auto",
-			"وصل سرور گیم شو","GAME - @pylin_gap"
+			"auto","@pylin_news | @pylin_gap"
 			],
-			"default": "auto"
+			"default": "@pylin_news | @pylin_gap"
 		},{
 			"type": "urltest",
 			"tag": "auto",
-			"outbounds": [
-			"وصل سرور گیم شو","GAME - @pylin_gap"
+			"outbounds": ["@pylin_news | @pylin_gap"
 			],
 			"url": "http://cp.cloudflare.com/",
 			"interval": "10m0s",
@@ -100,28 +98,28 @@
 		},
 		{
 		"type": "wireguard",
-		"tag": "وصل سرور گیم شو",
-		"server": "188.114.99.108",
-		"server_port": 1843,
-		"local_address": ["172.16.0.2/32","2606:4700:110:81c0:92f5:4713:c899:80ad/128"],
-		"private_key": "gCD8zA8dncJGMh6ZDjt1rd5Vq0HEgo9Ki7CNaKCkV1g=",
+		"tag": "National_1",
+		"server": "188.114.98.41",
+		"server_port": 5279,
+		"local_address": ["172.16.0.2/32","2606:4700:110:8bad:72e8:83ff:14d2:d639/128"],
+		"private_key": "GIylRdckCGAA8FrAFB1M/eT7/+WBnYj4KCUFr8JHqlc=",
 		"peer_public_key": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
-		"reserved": [140,87,79],
-		"mtu": 1320,
+		"reserved": [107,234,217],
+		"mtu": 1324,
 		"fake_packets": "2-7",
 		"fake_packets_size": "40-100",
 		"fake_packets_delay": "20-250"
 		},{
 		"type": "wireguard",
-		"tag": "GAME - @pylin_gap",
-		"detour": "وصل سرور گیم شو",
-		"server": "188.114.99.108",
-		"server_port": 1843,
-		"local_address": ["172.16.0.2/32",""],
-		"private_key": "",
-		"peer_public_key": "",
-		"reserved": [],  
-		"mtu": 1120
+		"tag": "@pylin_news | @pylin_gap",
+		"detour": "National_1",
+		"server": "188.114.98.41",
+		"server_port": 5279,
+		"local_address": ["172.16.0.2/32","2606:4700:110:84f2:f5ba:705e:c940:9775/128"],
+		"private_key": "EJXT3dF88y3M6FT/Bl1KTZsiSQKPOUe82WdzdvZ9oWY=",
+		"peer_public_key": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+		"reserved": [27,27,177],  
+		"mtu": 1187
 		},
 		{
 			"type": "dns",
