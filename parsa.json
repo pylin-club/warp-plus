@@ -84,8 +84,7 @@
 			"type": "selector",
 			"tag": "select",
 			"outbounds": [
-			"auto",
-			"National_1","Warp-on-Warp_1"
+			"Warp-on-Warp_1"
 			],
 			"default": "auto"
 		},{
