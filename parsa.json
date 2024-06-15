@@ -84,13 +84,15 @@
 			"type": "selector",
 			"tag": "select",
 			"outbounds": [
-			"auto","@pylin_news | @pylin_gap"
+			"auto",
+			"National_1","Warp-on-Warp_1"
 			],
-			"default": "@pylin_news | @pylin_gap"
+			"default": "auto"
 		},{
 			"type": "urltest",
 			"tag": "auto",
-			"outbounds": ["@pylin_news | @pylin_gap"
+			"outbounds": [
+			"National_1","Warp-on-Warp_1"
 			],
 			"url": "http://cp.cloudflare.com/",
 			"interval": "10m0s",
@@ -111,7 +113,7 @@
 		"fake_packets_delay": "20-250"
 		},{
 		"type": "wireguard",
-		"tag": "@pylin_news | @pylin_gap",
+		"tag": "Warp-on-Warp_1",
 		"detour": "National_1",
 		"server": "188.114.98.41",
 		"server_port": 5279,
