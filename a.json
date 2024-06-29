@@ -1,0 +1,271 @@
+{
+"dns": {
+	"servers": [
+	{
+		"tag": "dns-remote",
+		"address": "udp://1.1.1.1",
+		"address_resolver": "dns-direct"
+	},{
+		"tag": "dns-trick-direct",
+		"address": "https://sky.rethinkdns.com/",
+		"detour": "direct-fragment"
+	},{
+		"tag": "dns-direct",
+		"address": "1.1.1.1",
+		"address_resolver": "dns-local",
+		"detour": "direct"
+	},{
+		"tag": "dns-local",
+		"address": "local",
+		"detour": "direct"
+	},{
+		"tag": "dns-block",
+		"address": "rcode://success"
+	}
+	],
+	"rules": [
+	{
+		"domain_suffix": ".ir",
+		"geosite": "ir",
+		"server": "dns-direct"
+	},{
+		"domain": "cp.cloudflare.com",
+		"server": "dns-remote",
+		"rewrite_ttl": 3000
+	}
+	],
+	"final": "dns-remote",
+	"static_ips": {
+	"sky.rethinkdns.com": [
+		"104.17.147.22",
+		"104.17.148.22",
+		"141.101.75.111",
+		"162.159.83.123",
+		"162.159.178.7",
+		"162.159.221.99",
+		"188.114.97.3",
+		"188.114.96.3",
+		"2400:cb01:3131::111",
+		"2a06:98c1:3121::3",
+		"2a06:98c1:3120::3"
+	]
+	},
+	"independent_cache": true
+},
+"inbounds": [
+	{
+		"type": "tun",
+		"tag": "tun-in",
+		"mtu": 9000,
+		"inet4_address": "172.19.0.1/28",
+		"auto_route": true,
+		"strict_route": true,
+		"endpoint_independent_nat": true,
+		"stack": "mixed",
+		"sniff": true,
+		"sniff_override_destination": true
+	},{
+		"type": "mixed",
+		"tag": "mixed-in",
+		"listen": "127.0.0.1",
+		"listen_port": 2334,
+		"sniff": true,
+		"sniff_override_destination": true
+	},{
+		"type": "direct",
+		"tag": "dns-in",
+		"listen": "127.0.0.1",
+		"listen_port": 6450
+	}
+],
+"outbounds": 
+	[
+		{
+			"type": "selector",
+			"tag": "select",
+			"outbounds": [
+			"auto",
+			"National_1","Warp-on-Warp_1","National_2","Warp-on-Warp_2","National_3","Warp-on-Warp_3","National_4","Warp-on-Warp_4","National_5","Warp-on-Warp_5"
+			],
+			"default": "auto"
+		},{
+			"type": "urltest",
+			"tag": "auto",
+			"outbounds": [
+			"National_1","Warp-on-Warp_1","National_2","Warp-on-Warp_2","National_3","Warp-on-Warp_3","National_4","Warp-on-Warp_4","National_5","Warp-on-Warp_5"
+			],
+			"url": "http://cp.cloudflare.com/",
+			"interval": "10m0s",
+			"idle_timeout": "1h40m0s"
+		},
+		{
+		"type": "wireguard",
+		"tag": "National_1",
+		"server": "188.114.99.25",
+		"server_port": 894,
+		"local_address": ["172.16.0.2/32","2606:4700:110:8071:87ea:8198:b59d:bc94/128"],
+		"private_key": "mCHApeD9gk3BpvUE9opqANbd4hY1FQR2M7eqAhGHX2Q=",
+		"peer_public_key": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+		"reserved": [108,51,165],
+		"mtu": 1306,
+		"fake_packets": "2-7",
+		"fake_packets_size": "40-100",
+		"fake_packets_delay": "20-250"
+		},{
+		"type": "wireguard",
+		"tag": "Warp-on-Warp_1",
+		"detour": "National_1",
+		"server": "188.114.99.25",
+		"server_port": 894,
+		"local_address": ["172.16.0.2/32","2606:4700:110:8f33:1839:9e7b:991f:ae7e/128"],
+		"private_key": "2KmYjhKscjHO/OBFxeSB43wVa0d8J/uL5IOsn/Z53UY=",
+		"peer_public_key": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+		"reserved": [208,194,182],  
+		"mtu": 1202
+		},{
+		"type": "wireguard",
+		"tag": "National_2",
+		"server": "162.159.192.169",
+		"server_port": 880,
+		"local_address": ["172.16.0.2/32","2606:4700:110:8262:3df1:37a4:aa47:ab01/128"],
+		"private_key": "ICHOTyDgz4q/Z3yo9i/3SNa7Rs3+qA5mV8Lo761e/l0=",
+		"peer_public_key": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+		"reserved": [209,157,79],
+		"mtu": 1328,
+		"fake_packets": "2-7",
+		"fake_packets_size": "40-100",
+		"fake_packets_delay": "20-250"
+		},{
+		"type": "wireguard",
+		"tag": "Warp-on-Warp_2",
+		"detour": "National_2",
+		"server": "162.159.192.169",
+		"server_port": 880,
+		"local_address": ["172.16.0.2/32","2606:4700:110:8349:a11b:3daa:61bf:8dd4/128"],
+		"private_key": "iDXFgj4195zNvuTtVy1So3RkNeu1w0dp4ejWG8lnH1o=",
+		"peer_public_key": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+		"reserved": [175,199,228],  
+		"mtu": 1123
+		},{
+		"type": "wireguard",
+		"tag": "National_3",
+		"server": "162.159.195.238",
+		"server_port": 864,
+		"local_address": ["172.16.0.2/32","2606:4700:110:8b18:743d:7be5:1cc3:76dc/128"],
+		"private_key": "6GbzXBTUCuACKqFrMNEExTaiNXh62YNXkknVPZUC8ng=",
+		"peer_public_key": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+		"reserved": [228,94,26],
+		"mtu": 1290,
+		"fake_packets": "2-7",
+		"fake_packets_size": "40-100",
+		"fake_packets_delay": "20-250"
+		},{
+		"type": "wireguard",
+		"tag": "Warp-on-Warp_3",
+		"detour": "National_3",
+		"server": "162.159.195.238",
+		"server_port": 864,
+		"local_address": ["172.16.0.2/32","2606:4700:110:86f8:f3a1:b5d5:c3f4:af69/128"],
+		"private_key": "QP7srPBfpaDPqtr519DVTP1aYHrXQGMELVLm9TmUu3I=",
+		"peer_public_key": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+		"reserved": [41,200,48],  
+		"mtu": 1232
+		},{
+		"type": "wireguard",
+		"tag": "National_4",
+		"server": "188.114.99.64",
+		"server_port": 4198,
+		"local_address": ["172.16.0.2/32","2606:4700:110:811e:d811:5cfb:7bc:4ca7/128"],
+		"private_key": "+IiLBxN3dHM1UBi4w3ql/EafotY/sr3d5c1CGMgLfHo=",
+		"peer_public_key": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+		"reserved": [76,53,14],
+		"mtu": 1317,
+		"fake_packets": "2-7",
+		"fake_packets_size": "40-100",
+		"fake_packets_delay": "20-250"
+		},{
+		"type": "wireguard",
+		"tag": "Warp-on-Warp_4",
+		"detour": "National_4",
+		"server": "188.114.99.64",
+		"server_port": 4198,
+		"local_address": ["172.16.0.2/32","2606:4700:110:8435:fd39:b13f:5e08:602a/128"],
+		"private_key": "8P41mxIKBiFhKGRULQJn5O2vWGIYY7ab1EFVhUnELEw=",
+		"peer_public_key": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+		"reserved": [159,107,50],  
+		"mtu": 1161
+		},{
+		"type": "wireguard",
+		"tag": "National_5",
+		"server": "188.114.99.240",
+		"server_port": 7152,
+		"local_address": ["172.16.0.2/32","2606:4700:110:85c3:36d2:ba43:222d:8c2/128"],
+		"private_key": "2NkUAWU8dt/hP73hgoogoWCzCLvzq2Gi821LLUcKR3s=",
+		"peer_public_key": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+		"reserved": [13,248,125],
+		"mtu": 1297,
+		"fake_packets": "2-7",
+		"fake_packets_size": "40-100",
+		"fake_packets_delay": "20-250"
+		},{
+		"type": "wireguard",
+		"tag": "Warp-on-Warp_5",
+		"detour": "National_5",
+		"server": "188.114.99.240",
+		"server_port": 7152,
+		"local_address": ["172.16.0.2/32","2606:4700:110:8d53:ed5e:471f:5e11:4076/128"],
+		"private_key": "KKDZhBCHOdvi72JQmWoPWrYRSFJNjjjkValHhQMSm2A=",
+		"peer_public_key": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+		"reserved": [81,120,25],  
+		"mtu": 1224
+		},
+		{
+			"type": "dns",
+			"tag": "dns-out"
+		},{
+			"type": "direct",
+			"tag": "direct"
+		},{
+			"type": "direct",
+			"tag": "direct-fragment",
+			"tls_fragment": {
+			"enabled": true,
+			"size": "1-500",
+			"sleep": "0-500"
+			}
+		},{
+			"type": "direct",
+			"tag": "bypass"
+		},{
+			"type": "block",
+			"tag": "block"
+		}
+	],
+"route": {
+	"geoip": {"path": "geo-assets/sagernet-sing-geoip-geoip.db"},
+	"geosite": {"path": "geo-assets/sagernet-sing-geosite-geosite.db"},
+	"rules": [
+		{
+			"inbound": "dns-in",
+			"outbound": "dns-out"
+		},{
+			"port": 53,
+			"outbound": "dns-out"
+		},{
+			"clash_mode": "Direct",
+			"outbound": "direct"
+		},{
+			"clash_mode": "Global",
+			"outbound": "select"
+		},{
+			"domain_suffix": ".ir",
+			"geosite": "ir",
+			"geoip": "ir",
+			"outbound": "bypass"
+		}
+		],
+		"final": "select",
+		"auto_detect_interface": true,
+		"override_android_vpn": true
+	}
+}
